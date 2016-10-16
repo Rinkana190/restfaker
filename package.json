@@ -125,7 +125,8 @@
     "redux-thunk": "^2.1.0",
     "source-map-support": "^0.4.3",
     "faker": "^3.1.0",
-    "bootstrap": "^3.3.7"
+    "bootstrap": "^3.3.7",
+    "body-parser": "^1.15.2"
   },
   "devEngines": {
     "node": "4.x || 5.x || 6.x",

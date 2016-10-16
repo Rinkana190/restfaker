@@ -7,6 +7,7 @@
 
 import express from 'express';
 import webpack from 'webpack';
+import bodyParser from 'body-parser';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
@@ -26,6 +27,13 @@ const wdm = webpackDevMiddleware(compiler, {
 app.use(wdm);
 
 app.use(webpackHotMiddleware(compiler));
+
+app.use(bodyParser.json());
+
+app.post('/curl', function(req, res){
+    console.log(req.body);
+    res.json({'req': req.body});
+})
 
 const server = app.listen(PORT, 'localhost', err => {
   if (err) {
