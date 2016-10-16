@@ -10,6 +10,8 @@ const {
   HOME_PAGE_SCHEME_EDIT_KEY,
   HOME_PAGE_SCHEME_EDIT_VAL,
   HOME_PAGE_CHOOSE_METHOD,
+  HOME_PAGE_CHOOSE_FETCH_METHOD,
+  HOME_PAGE_CHOOSE_LOCALE,
   HOME_PAGE_EDIT_URL,
   HOME_PAGE_SEND,
   HOME_PAGE_SEND_FAIL,
@@ -17,8 +19,10 @@ const {
 } = actionTypes;
 
 const initialState = {
-  headerRows: [{ k: '', v: '' }],
+  headerRows: [{ k: 'Content-Type', v: 'application/json' }],
   schemeRows: [{ k: '', v: 'name.firstName' }],
+  fetchMode: 'cors',
+  fakerLocale: 'en',
   method: 'GET',
   url: '',
   working: false,
@@ -106,6 +110,22 @@ export default function homePage(state = initialState, action: Object) {
       return {
         ...state,
         method,
+      };
+    }
+    case HOME_PAGE_CHOOSE_FETCH_METHOD: {
+      const fetchMode = action.v;
+
+      return {
+        ...state,
+        fetchMode
+      };
+    }
+    case HOME_PAGE_CHOOSE_LOCALE: {
+      const fakerLocale = action.v;
+
+      return {
+        ...state,
+        fakerLocale
       };
     }
     case HOME_PAGE_EDIT_URL: {

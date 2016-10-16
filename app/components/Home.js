@@ -17,6 +17,8 @@ const {
   HOME_PAGE_SCHEME_EDIT_KEY,
   HOME_PAGE_SCHEME_EDIT_VAL,
   HOME_PAGE_CHOOSE_METHOD,
+  HOME_PAGE_CHOOSE_FETCH_METHOD,
+  HOME_PAGE_CHOOSE_LOCALE,
   HOME_PAGE_EDIT_URL,
   HOME_PAGE_SEND,
   HOME_PAGE_SEND_CHOOSE_N,
@@ -64,19 +66,21 @@ export default class Home extends Component {
     schemeRows: PropTypes.arrayOf(PropTypes.object),
     results: PropTypes.arrayOf(PropTypes.object),
     n: PropTypes.string,
+    fetchMode: PropTypes.string,
     method: PropTypes.string,
     url: PropTypes.string,
-    working: PropTypes.bool,
+    fakerLocale: PropTypes.string,
+    // working: PropTypes.bool,
   };
 
   onBtnClick() {
     const params = {};
     const headers = {
-      Accept: 'application/json',
+      // Accept: 'application/json',
     };
     const hKeys = Object.keys(this.props.headerRows);
     const jsKeys = Object.keys(this.props.schemeRows);
-    const { schemeRows, headerRows, n, method } = this.props;
+    const { schemeRows, headerRows, n, method, fetchMode, fakerLocale } = this.props;
     const url = `http://${this.props.url}`;
 
     for (let i = 0; i < hKeys.length; i += 1) {
@@ -84,23 +88,26 @@ export default class Home extends Component {
     }
 
     const query = {
-      mode: 'cors',
+      mode: fetchMode,
       method,
       headers,
       body: '',
     };
-
+    console.info('locale', fakerLocale);
+    faker.locale = 'ru';
     const results = [];
+    const fakeResults = [];
     for (let j = 0; j < n; j += 1) {
       for (let i = 0; i < jsKeys.length; i += 1) {
         params[schemeRows[jsKeys[i]].k] = faker.fake(`{{${schemeRows[jsKeys[i]].v}}}`);
       }
       query.body = JSON.stringify(params);
+      fakeResults[j] = query;
       results[j] = basicCall(url, query);
       console.info('query', query);
     }
 
-    this.props.dispatch({ type: HOME_PAGE_SEND, res: results });
+    this.props.dispatch({ type: HOME_PAGE_SEND, res: fakeResults });
   }
 
   onEditHeaderKey(index: Number, evt:Object) {
@@ -139,6 +146,16 @@ export default class Home extends Component {
     this.props.dispatch({ type: HOME_PAGE_CHOOSE_METHOD, v: val });
   }
 
+  onChooseFetch(evt:Object) {
+    const val = evt.target.value;
+    this.props.dispatch({ type: HOME_PAGE_CHOOSE_FETCH_METHOD, v: val });
+  }
+
+  onChooseLocale(evt:Object) {
+    const val = evt.target.value;
+    this.props.dispatch({ type: HOME_PAGE_CHOOSE_LOCALE, v: val });
+  }
+
   onEditSchemeKey(index: Number, evt:Object) {
     const ind = index;
     const val = evt.target.value;
@@ -161,8 +178,7 @@ export default class Home extends Component {
     });
   }
 
-  addSchemeRow(evt: Object) {
-    console.info('sr', evt);
+  addSchemeRow() {
     this.props.dispatch({ type: HOME_PAGE_SCHEME_ADD_ROW, rows: this.props.schemeRows });
   }
 
@@ -187,17 +203,76 @@ export default class Home extends Component {
   }
 
   render() {
-    const { headerRows, schemeRows, n, url, method, working, results } = this.props;
-    if (working) console.info('working', schemeRows);
+    const { headerRows, schemeRows, n, url, method,
+        results, fetchMode, fakerLocale } = this.props;
 
     const res = JSON.stringify(results);
 
     return (
       <div className="container">
         <div className="row">
-          <h1 className="lead">
-            Insert Headers, Scheme, choose request type and push Send.
-          </h1>
+          <div className="col-md-8">
+            <h1 className="lead">
+              Insert Headers, Scheme, choose request type&fetch mode and push Send.
+            </h1>
+          </div>
+          <div className="col-md-4">
+            <div className="dropdown">
+              <select className="form-control" value={fetchMode} onChange={this.onChooseFetch.bind(this)}>
+                <option value="cors">cors</option>
+                <option value="same-origin">same-origin</option>
+                <option value="no-cors">no-cors</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-8">
+            <h1 className="lead">
+              Choose faker Locale.
+            </h1>
+          </div>
+          <div className="col-md-4">
+            <div className="dropdown">
+              <select className="form-control" value={fakerLocale} onChange={this.onChooseLocale.bind(this)}>
+                <option value="de">de</option>
+                <option value="de_AT">de_AT</option>
+                <option value="de_CH">de_CH</option>
+                <option value="en">en</option>
+                <option value="en_AU">en_AU</option>
+                <option value="en_BORK">en_BORK</option>
+                <option value="en_CA">en_CA</option>
+                <option value="en_GB">en_GB</option>
+                <option value="en_IE">en_IE</option>
+                <option value="en_IND">en_IND</option>
+                <option value="en_US">en_US</option>
+                <option value="en_au_ocker">en_au_ocker</option>
+                <option value="es">es</option>
+                <option value="es_MX">es_MX</option>
+                <option value="fa">fa</option>
+                <option value="fr">fr</option>
+                <option value="fr_CA">fr_CA</option>
+                <option value="ge">ge</option>
+                <option value="id_ID">id_ID</option>
+                <option value="it">it</option>
+                <option value="ja">ja</option>
+                <option value="ko">ko</option>
+                <option value="nb_NO">nb_NO</option>
+                <option value="nep">nep</option>
+                <option value="nl">nl</option>
+                <option value="pl">pl</option>
+                <option value="pt_BR">pt_BR</option>
+                <option value="ru">ru</option>
+                <option value="sk">sk</option>
+                <option value="sv">sv</option>
+                <option value="tr">tr</option>
+                <option value="uk">uk</option>
+                <option value="vi">vi</option>
+                <option value="zh_CN">zh_CN</option>
+                <option value="zh_TW">zh_TW</option>
+              </select>
+            </div>
+          </div>
         </div>
         <div className="row">
           <div className="col-md-4">
