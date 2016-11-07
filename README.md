@@ -31,3 +31,9 @@ $ npm run dev
 - Windows: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 
 *See [electron-debug](https://github.com/sindresorhus/electron-debug) for more information.*
+
+
+
+## Sorry
+
+*It's not the best code. Main part was done for few hours, just to simplify my work.
