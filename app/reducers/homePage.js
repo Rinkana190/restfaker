@@ -16,6 +16,7 @@ const {
   HOME_PAGE_SEND,
   HOME_PAGE_SEND_FAIL,
   HOME_PAGE_SEND_CHOOSE_N,
+  HOME_PAGE_CLEAR_RESULT,
 } = actionTypes;
 
 const initialState = {
@@ -137,11 +138,19 @@ export default function homePage(state = initialState, action: Object) {
       };
     }
     case HOME_PAGE_SEND: {
-      const res = { ...action.res };
+      const res = [...action.res];
+      const answers = [...action.answers];
+      const out = [];
+      for (let i = 0; i < res.length; i += 1) {
+        out[i] = { request: res[i], response: answers[i] };
+        console.info('cycle', res[i]);
+        console.info('cycle2', answers[i]);
+      }
+      console.info('out', out);
 
       return {
         ...state,
-        results: res,
+        results: out,
       };
     }
     case HOME_PAGE_SEND_FAIL: {
@@ -155,6 +164,13 @@ export default function homePage(state = initialState, action: Object) {
       return {
         ...state,
         n: nn,
+      };
+    }
+    case HOME_PAGE_CLEAR_RESULT: {
+      const results = [];
+      return {
+        ...state,
+        results,
       };
     }
     default:

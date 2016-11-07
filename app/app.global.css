@@ -35,3 +35,19 @@ a:hover {
   text-decoration: none;
   cursor: pointer;
 }
+
+.panel-body h2{
+  color: #232C39;
+}
+
+.panel-body label{
+  color: #232C39;
+}
+
+.pullUp10 {
+  margin-top: -10px;
+}
+
+.pullRight5 {
+  padding-left: 5px;
+}
