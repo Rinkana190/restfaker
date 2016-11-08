@@ -35,7 +35,7 @@ $ npm run dev
 
 ## Based
 
-[electron-react-boilerplate]https://github.com/chentsulin/electron-react-boilerplate
+[electron-react-boilerplate](https://github.com/chentsulin/electron-react-boilerplate)
 
 ## Sorry
 
