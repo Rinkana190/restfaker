@@ -2,8 +2,10 @@
 Desktop app to fill your REST service with auto generated dummy data
 
 ##Data
-Generated with [Faker](https://github.com/marak/Faker.js/)
+Generated with [Faker](https://github.com/marak/Faker.js/).
 All Faker types available.
+
+## Install
 
 ```bash
 $ cd your-project-name && npm install
